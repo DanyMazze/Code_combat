@@ -18,15 +18,15 @@ if __name__ == "__main__":
         print("Inizia un nuovo turno!")
         t.sleep(5)
         danno = personaggio1.attacca(personaggio2)
-        print(f"{personaggio1.nome} attacca {personaggio2.nome} e infligge {danno} danni.")
+        print(f"{personaggio1.get_nome()} attacca {personaggio2.get_nome()} e infligge {danno} danni.")
         print(personaggio2, end="\n\n")
         if not personaggio2.is_alive():
-            print(f"{personaggio2.nome} è stato sconfitto!")
+            print(f"{personaggio2.get_nome()} è stato sconfitto!")
             break
 
         danno = personaggio2.attacca(personaggio1)
-        print(f"{personaggio2.nome} attacca {personaggio1.nome} e infligge {danno} danni.")
+        print(f"{personaggio2.get_nome()} attacca {personaggio1.get_nome()} e infligge {danno} danni.")
         print(personaggio1, end="\n\n")
         if not personaggio1.is_alive():
-            print(f"{personaggio1.nome} è stato sconfitto!")
+            print(f"{personaggio1.get_nome()} è stato sconfitto!")
             break
