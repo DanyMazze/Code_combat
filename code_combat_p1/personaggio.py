@@ -1,7 +1,7 @@
 from arma import Weapon
 
 class Character:
-    def __init__(self, name: str, max_hp: int, strength: int, dexterity: int, weapon = None):
+    def __init__(self, name: str, max_hp: int, strength: int, dexterity: int, weapon = None, potions = None):
         self.__name = name
         if max_hp < 1:
             max_hp = 1
@@ -14,6 +14,7 @@ class Character:
             dexterity = 0
         self.__dexterity = dexterity
         self.__weapon = weapon
+        self.__buff =  None
 
     @property
     def name(self):
@@ -101,8 +102,17 @@ class Character:
                 damage = self.weapon.get_damage() + self.modifier(self.dexterity)
         if damage < 0:
             damage = 0
-        actual_damage = target.take_damage(damage)
+        actual_damage = target.__take_damage(damage)
         return actual_damage
+    
+    def should_use_potion(self, enemy: "Character"):
+        if self.hp / self.max_hp < 0.3:
+            if self.attack(enemy) < enemy.hp:
+                return False
+            return True
+        if self.__buff is None:
+            return True
+        return False
 
     def __str__(self):
         return f"{self.name}: {self.hp}/{self.max_hp} HP, Str: {self.strength} ({self.modifier(self.strength)}), Dex: {self.dexterity} ({self.modifier(self.dexterity)}), Weapon: {self.weapon}"
