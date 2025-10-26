@@ -17,9 +17,10 @@ class Potion:
     @property
     def effect(self):
         return self.__effect
+
     @effect.setter
     def effect(self, value: str):
-        if value not in ["heal", "buff_strength", "buff_dexterity"]:
+        if value not in ["heal", "strength", "dexterity"]:
             value = "heal"
         self.__effect = value
 
@@ -44,7 +45,7 @@ class Potion:
     def use(self, character: "Character"):
         if self.effect == "heal":
             character.heal(self.amount)
-        elif self.effect == "buff_strength":
+        elif self.effect == "strength":
             character.add_buff("strength", self.amount)
-        elif self.effect == "buff_dexterity":
+        elif self.effect == "dexterity":
             character.add_buff("dexterity", self.amount)
