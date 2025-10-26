@@ -15,6 +15,16 @@ class Character:
         self.__dexterity = dexterity
         self.__weapon = weapon
         self.__buff =  None
+        self.__potions = [] if potions is None else potions.copy()
+
+    @property
+    def potions(self):
+        return self.__potions   
+    @potions.setter
+    def potions(self, value: list):
+        if not isinstance(value, list):
+            value = []
+        self.__potions = value
 
     @property
     def name(self):
@@ -81,16 +91,28 @@ class Character:
         if self.hp + amount > self.max_hp:
             amount = self.max_hp - self.hp
         self.hp += amount
+    
+    def tick_buff(self, attribute: str, amount: int):
+        if attribute == "strength":
+            self.strength -= amount
+            if self.strength < 0:
+                self.strength = 0
+        elif attribute == "dexterity":
+            self.dexterity -= amount
+            if self.dexterity < 0:
+                self.dexterity = 0  
 
-    def __add_buff(self, attribute: str, amount: int):
+    def add_buff(self, attribute: str, amount: int):
         if attribute == "strength":
             if amount < 0 or self.strength + amount > 20:
                 return
             self.strength += amount
+            self.__buff = "strength"
         elif attribute == "dexterity":
             if amount < 0 or self.dexterity + amount > 20:
                 return
             self.dexterity += amount
+            self.__buff = "dexterity"
 
     def attack(self, target: "Character"):
         if self.weapon is None:
@@ -104,16 +126,27 @@ class Character:
             damage = 0
         actual_damage = target.__take_damage(damage)
         return actual_damage
-    
-    def should_use_potion(self, enemy: "Character"):
+
+    def should_use_potion_health(self, enemy: "Character"):
+        # Usa la pozione di cura solo se:
+        # 1. La vita è sotto il 30%
+        # 2. Non può uccidere il nemico con un colpo (quindi ha bisogno di curarsi)
         if self.hp / self.max_hp < 0.3:
-            if self.attack(enemy) < enemy.hp:
-                return False
-            return True
+            if self.attack(enemy) >= enemy.hp:  # Se può uccidere il nemico con un colpo
+                return False  # Non usa la pozione
+            return True  # Usa la pozione se non può uccidere il nemico
+        return False  # Non usa la pozione se ha più del 30% di vita
+    
+    def should_use_potion_buff(self, enemy: "Character"):
         if self.__buff is None:
             return True
         return False
 
+    def should_use_potion(self, enemy: "Character"):
+        if self.should_use_potion_health(enemy):
+            return 0
+        elif self.should_use_potion_buff(enemy):
+            return 1
+        return -1
     def __str__(self):
-        return f"{self.name}: {self.hp}/{self.max_hp} HP, Str: {self.strength} ({self.modifier(self.strength)}), Dex: {self.dexterity} ({self.modifier(self.dexterity)}), Weapon: {self.weapon}"
-
+        return f"{self.name}: HP {self.hp}/{self.max_hp}, STR {self.strength}, DEX {self.dexterity}, Weapon: {self.weapon}, Potions: {[potion.name for potion in self.potions]}"
