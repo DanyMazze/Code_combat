@@ -127,25 +127,22 @@ class Character:
         actual_damage = target.__take_damage(damage)
         return actual_damage
 
-    def should_use_potion_health(self, enemy: "Character"):
-        # Usa la pozione di cura solo se:
-        # 1. La vita è sotto il 30%
-        # 2. Non può uccidere il nemico con un colpo (quindi ha bisogno di curarsi)
+    def __should_use_potion_health(self, enemy: "Character"):
         if self.hp / self.max_hp < 0.3:
-            if self.attack(enemy) >= enemy.hp:  # Se può uccidere il nemico con un colpo
-                return False  # Non usa la pozione
-            return True  # Usa la pozione se non può uccidere il nemico
-        return False  # Non usa la pozione se ha più del 30% di vita
+            if self.attack(enemy) >= enemy.hp:  
+                return False  
+            return True  
+        return False  
     
-    def should_use_potion_buff(self, enemy: "Character"):
+    def __should_use_potion_buff(self, enemy: "Character"):
         if self.__buff is None:
             return True
         return False
 
     def should_use_potion(self, enemy: "Character"):
-        if self.should_use_potion_health(enemy):
+        if self.__should_use_potion_health(enemy):
             return 0
-        elif self.should_use_potion_buff(enemy):
+        elif self.__should_use_potion_buff(enemy):
             return 1
         return -1
     def __str__(self):
