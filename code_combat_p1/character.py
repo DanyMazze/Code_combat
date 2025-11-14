@@ -3,6 +3,18 @@ from potion import Potion
 
 class Character:
     def __init__(self, name: str, max_hp: int, strength: int, dextrety: int, weapon = None, potions = None):
+        if name == "":
+            raise ValueError("name cannot be empty")
+        if max_hp < 1:
+            raise ValueError("'max_hp' cannot be < 1")
+        if strength < 1 or strength > 20:
+            raise ValueError("'strength' must be between 1 and 20")
+        if dextrety < 1 or dextrety > 20:
+            raise ValueError("'dextrety' must be between 1 and 20")
+        if weapon is not None and not isinstance(weapon, Weapon):
+            raise ValueError("'weapon' must be a Weapon or None")
+        if potions is None:
+            potions = []
         self.__name = name
         self.__max_hp = max_hp
         self.__hp = self.__max_hp

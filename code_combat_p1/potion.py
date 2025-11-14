@@ -1,6 +1,16 @@
 
 class Potion:
     def __init__(self, name: str, effect: str, attribute: str, amount: int, duration: int):
+        if name == "":
+            raise ValueError("name cannot be empty")
+        if effect not in ["health", "buff"]:
+            raise ValueError("effect must be 'health' or 'buff'")
+        if attribute not in ["strength", "dextrety"]:
+            raise ValueError("attribute must be 'strength' or 'dextrety'")
+        if amount < 1:
+            raise ValueError("amount must be >= 1")
+        if duration < 1:
+            raise ValueError("duration must be >= 1")
         self.__name = name
         self.__effect = effect
         self.__attribute = attribute
