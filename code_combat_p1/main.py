@@ -12,7 +12,7 @@ def create_character(potion_health: Potion, potion_strength: Potion, potion_dext
     return Character(choice(names), randint(90,100), randint(10,20), randint(10,20), choice(weapons), [potion_health, potion_health, buff_potion])
 
 if __name__ == "__main__":
-    potion_health = Potion("health potion", "health", "hp", 15, 0)
+    potion_health = Potion("health potion", "health", "hp", 15, 1)
     potion_strength = Potion("strength potion", "buff", "strength", 4, 3) 
     potion_dextrety = Potion("dextrety potion", "buff", "dextrety", 4, 3)  
     

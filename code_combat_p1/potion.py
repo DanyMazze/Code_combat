@@ -5,8 +5,8 @@ class Potion:
             raise ValueError("name cannot be empty")
         if effect not in ["health", "buff"]:
             raise ValueError("effect must be 'health' or 'buff'")
-        if attribute not in ["strength", "dextrety"]:
-            raise ValueError("attribute must be 'strength' or 'dextrety'")
+        if attribute not in ["strength", "dextrety", "hp"]:
+            raise ValueError("attribute must be 'strength', 'dextrety' or 'hp'")
         if amount < 1:
             raise ValueError("amount must be >= 1")
         if duration < 1:
