@@ -5,7 +5,7 @@ from random import randint
 from random import choice
 from time import sleep
 
-def create_character(potion_health: Potion, potion_strength: Potion, potion_dextrety: Potion) -> object:
+def create_character(potion_health: Potion, potion_strength: Potion, potion_dextrety: Potion) -> Character:
     names = ["mario", "luigi", "sara", "thomas"]
     weapons = [Weapon("arco", "ranged", 1, 6), Weapon("spada", "melee", 1, 8)]
     buff_potion = choice([potion_strength, potion_dextrety])
